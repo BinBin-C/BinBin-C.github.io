@@ -26,7 +26,7 @@
 
   
 
-  <title>Hello World | BinBin</title>
+  <title>BinBin</title>
 
   
 
@@ -102,11 +102,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Hello World</h1>
+          <h1 class="title-wrap"></h1>
           <h2 class="title-sub-wrap">
             <strong>ChenBin</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-09-03T10:09:14.162Z" itemprop="datePublished">2022-09-03</time>
+            <time  class="article-date" datetime="2022-09-03T12:44:46.138Z" itemprop="datePublished">2022-09-03</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -135,40 +135,78 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="函数绘图语言解释器——Interpreter-For-Functional-Painting-Language"><a href="#函数绘图语言解释器——Interpreter-For-Functional-Painting-Language" class="headerlink" title="函数绘图语言解释器——Interpreter For Functional Painting Language"></a>函数绘图语言解释器——Interpreter For Functional Painting Language</h1><hr>
+<h2 id="一、项目简介"><a href="#一、项目简介" class="headerlink" title="一、项目简介"></a>一、项目简介</h2><p>​    从0开始构造绘图语言解释器，项目的准备工作繁多且关键。首先我们用正规式设计该绘图语言的词法，再用产生式设计其语法，最终以递归下降子程序的方式编写语言的解释器。该语言的词法、语法以及语义将会在后续阐述。整个项目是通过python实现的，绘图部分则通过plot实现，经过我们多版本的更新迭代，最终得到了纯面向对象架构的版本。</p>
+<p>​    至于参与此项目的原因：一方面是当时对编译原理比较感兴趣，便与同学一起参与了老师组织的这项工程；另一方面是希望自己可以在项目中不断地学习进步。这次经历的确锻炼了我编程开发以及架构设计的能力，也让我了解了做项目的步骤，并对做项目的流程和工作分工有了更加深刻的体会和理解。</p>
+<h2 id="二、函数绘图语言"><a href="#二、函数绘图语言" class="headerlink" title="二、函数绘图语言"></a>二、函数绘图语言</h2><h3 id="2-1-语言简述："><a href="#2-1-语言简述：" class="headerlink" title="2.1 语言简述："></a>2.1 语言简述：</h3><h4 id="lt-1-gt-语句"><a href="#lt-1-gt-语句" class="headerlink" title="&lt;1&gt;  语句"></a>&lt;1&gt;  语句</h4><ul>
+<li>循环绘图（FOR-DRAW）</li>
+<li>比例设置（SCALE）</li>
+<li>角度旋转（ROT）</li>
+<li>坐标平移（ORIGIN）</li>
+<li>注释        （– 或 //）</li>
+</ul>
+<p>​    具体语法及语义会在相关位置进行阐述</p>
+<h4 id="lt-2-gt-屏幕（窗口）的坐标系"><a href="#lt-2-gt-屏幕（窗口）的坐标系" class="headerlink" title="&lt;2&gt; 屏幕（窗口）的坐标系"></a>&lt;2&gt; 屏幕（窗口）的坐标系</h4><p>​    左上角为原点<br>​    x方向从左向右增长<br>​    y方向从上到下增长(与一般的坐标系方向相反)</p>
+<h4 id="lt-3-gt-函数绘图源程序举例"><a href="#lt-3-gt-函数绘图源程序举例" class="headerlink" title="&lt;3&gt; 函数绘图源程序举例"></a>&lt;3&gt; 函数绘图源程序举例</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">--------------- 函数f(t)=t的图形</span><br><span class="line">origin is (100, 300);							  -- 设置原点的偏移量</span><br><span class="line">rot is 0;										 -- 设置旋转角度(不旋转)</span><br><span class="line">scale is (1, 1);								  -- 设置横坐标和纵坐标的比例</span><br><span class="line">for T from 0 to 200 step 1 draw (t, 0);</span><br><span class="line">												-- 横坐标的轨迹（纵坐标为0）</span><br><span class="line">for T from 0 to 150 step 1 draw (0, -t);</span><br><span class="line">												-- 纵坐标的轨迹（横坐标为0）</span><br><span class="line">for T from 0 to 120 step 1 draw (t, -t);</span><br><span class="line">												-- 函数f(t)=t的轨迹</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-语句原则："><a href="#2-2-语句原则：" class="headerlink" title="2.2 语句原则："></a>2.2 语句原则：</h3><ol>
+<li>各类语句可以按任意次序书写，且语句以分号结尾。源程序中的语句以它们出现的先后顺序处理。</li>
+<li>ORIGIN、ROT和SCALE 语句只影响其后的绘图语句，且遵循最后出现的语句有效的原则。 例如，若有下述ROT语句序列： ROT IS 0.7 ； ROT IS 1.57 ； 则随后的绘图语句将按1.57而不是0.7弧度旋转。</li>
+<li>无论ORIGIN、ROT和SCALE语句的出现顺序如何，图形的变换顺序总是：比例变换→旋转变换→平移变换</li>
+<li>语言对大小写不敏感，例如for、For、FOR等，均被认为是同一个保留字。</li>
+<li>语句中表达式的值均为双精度类型，旋转角度单位为弧度且为逆时针旋转，平移单位为点。</li>
+</ol>
+<h3 id="2-3语法详解："><a href="#2-3语法详解：" class="headerlink" title="2.3语法详解："></a>2.3语法详解：</h3><h4 id="lt-1-gt-循环绘图（FOR-DRAW-）语句"><a href="#lt-1-gt-循环绘图（FOR-DRAW-）语句" class="headerlink" title="&lt;1&gt; 循环绘图（FOR-DRAW ）语句"></a>&lt;1&gt; 循环绘图（FOR-DRAW ）语句</h4><p>​    语法：FOR T FROM 起点 TO 终点 STEP 步长 DRAW(横坐标, 纵坐标);</p>
+<p>​    语义：令T从起点到终点、每次改变一个步长，绘制出由(横坐标，纵坐标)所规定的点的轨迹。</p>
+<p>​    举例：FOR T FROM 0 TO 2*PI STEP PI/50 DRAW (cos(T), sin(T));</p>
+<p>​    说明：该语句的作用是令T从0到2*PI、步长 PI/50，绘制出各个点的坐标(cos(T)，sin(T))，即一个单位圆。</p>
+<h4 id="lt-2-gt-比例设置-SCALE-语句"><a href="#lt-2-gt-比例设置-SCALE-语句" class="headerlink" title="&lt;2&gt; 比例设置(SCALE)语句"></a>&lt;2&gt; 比例设置(SCALE)语句</h4><p>​    语法：SCALE IS (横坐标比例因子，纵坐标比例因子);</p>
+<p>​    语义：设置横坐标和纵坐标的比例，并分别按照比例因子进行缩放。</p>
+<p>​    举例：SCALE IS (100, 100);</p>
+<p>​    说明：将横坐标和纵坐标的比例设置为1:1，且放大100倍。</p>
+<h4 id="lt-3-gt-坐标平移-ORIGIN-语句"><a href="#lt-3-gt-坐标平移-ORIGIN-语句" class="headerlink" title="&lt;3&gt; 坐标平移(ORIGIN)语句"></a>&lt;3&gt; 坐标平移(ORIGIN)语句</h4><p>​    语法：ORIGIN IS (横坐标，纵坐标);</p>
+<p>​    语义：将坐标系的原点平移到横坐标和纵坐标规定的点处。</p>
+<p>​    举例：ORIGIN IS (360, 240);</p>
+<p>​    说明：将原点从(0, 0)平移到(360, 240) 处</p>
+<h4 id="lt-4-gt-角度旋转-ROT-语句"><a href="#lt-4-gt-角度旋转-ROT-语句" class="headerlink" title="&lt;4&gt; 角度旋转(ROT)语句"></a>&lt;4&gt; 角度旋转(ROT)语句</h4><p>​    语法：ROT IS 角度；</p>
+<p>​    语义：逆时针旋转角度所规定的弧度值。 具体计算公式：<br>​    旋转后X=旋转前X<em>COS(角度)+旋转前Y</em>SIN(角度)<br>​    旋转后Y=旋转前Y<em>COS(角度)-旋转前X</em>SIN(角度)</p>
+<p>​    举例：ROT IS PI/2;</p>
+<p>​    说明：逆时针旋转PI/2，即逆时针旋转90度。</p>
+<h4 id="lt-5-gt-注释语句"><a href="#lt-5-gt-注释语句" class="headerlink" title="&lt;5&gt; 注释语句"></a>&lt;5&gt; 注释语句</h4><p>​    作用：便于理解； 屏蔽暂时不需要的语句。</p>
+<p>​    语法：// This is a comment line 或 – 此行是注释</p>
+<p>​    语义：// 或 – 之后，直到行尾，均是注释</p>
+<h2 id="三、架构"><a href="#三、架构" class="headerlink" title="三、架构"></a>三、架构</h2><h3 id="解释器的实现方法"><a href="#解释器的实现方法" class="headerlink" title="解释器的实现方法"></a>解释器的实现方法</h3><p>解释器的实现原理：</p>
+<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232323663.png" alt="image-20220502232323663" style="zoom: 50%;" />
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+<p>实现方法：</p>
+<ol>
+<li><p>用程序设计语言（C/C++、Java、python等）和递归下降子程序方法编写完整的解释器；</p>
+<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232046987.png" style="zoom: 67%;" /></li>
+<li><p>利用工具 LEX/YACC 分别构造绘图语言的词法、语法分析器；用C/C++语言编写解释器的语义、主程序。</p>
+<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232108848.png" style="zoom: 50%;" /></li>
+</ol>
+<p>以上两种方法均可，而且两种方法的语义部分（和主程序）基本相同，主要区别在于词法和语法分析器的构造是手工完成还是借助于工具完成，考虑到该绘图语言结构并不是很复杂，故采取第一种方式编写完整的解释器。</p>
+<h3 id="词法设计"><a href="#词法设计" class="headerlink" title="词法设计"></a>词法设计</h3><h3 id="语法设计"><a href="#语法设计" class="headerlink" title="语法设计"></a>语法设计</h3>
       </section>
 
       
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2022/09/03/a/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">(no title)</h2>
+        <a href="/2022/09/03/hello-world/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Hello World</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
