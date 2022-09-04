@@ -26,7 +26,7 @@
 
   
 
-  <title>Interpreter For Functional Painting Language | BinBin</title>
+  <title>Hexo的Front-matter使用方法 | BinBin</title>
 
   
 
@@ -76,9 +76,11 @@
         
           <li class="navbar-list-item"><a href="/">首页</a></li>
         
+          <li class="navbar-list-item"><a href="/archives">archives</a></li>
+        
           <li class="navbar-list-item"><a href="/message">留言</a></li>
         
-          <li class="navbar-list-item"><a href="/archives">友链archives</a></li>
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
         
       </ul>
     </div>
@@ -102,13 +104,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Interpreter For Functional Painting Language</h1>
+          <h1 class="title-wrap">Hexo的Front-matter使用方法</h1>
           <h2 class="title-sub-wrap">
             <strong>ChenBin</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-09-03T12:44:46.138Z" itemprop="datePublished">2022-09-03</time>
+            <time  class="article-date" datetime="2022-09-04T06:31:38.592Z" itemprop="datePublished">2022-09-04</time>
           </h2>
           <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">📒 搭建博客</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -135,58 +139,81 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="函数绘图语言解释器——Interpreter-For-Functional-Painting-Language"><a href="#函数绘图语言解释器——Interpreter-For-Functional-Painting-Language" class="headerlink" title="函数绘图语言解释器——Interpreter For Functional Painting Language"></a>函数绘图语言解释器——Interpreter For Functional Painting Language</h1><hr>
-<h2 id="一、项目简介"><a href="#一、项目简介" class="headerlink" title="一、项目简介"></a>一、项目简介</h2><p>​    从0开始构造绘图语言解释器，项目的准备工作繁多且关键。首先我们用正规式设计该绘图语言的词法，再用产生式设计其语法，最终以递归下降子程序的方式编写语言的解释器。该语言的词法、语法以及语义将会在后续阐述。整个项目是通过python实现的，绘图部分则通过plot实现，经过我们多版本的更新迭代，最终得到了纯面向对象架构的版本。</p>
-<p>​    至于参与此项目的原因：一方面是当时对编译原理比较感兴趣，便与同学一起参与了老师组织的这项工程；另一方面是希望自己可以在项目中不断地学习进步。这次经历的确锻炼了我编程开发以及架构设计的能力，也让我了解了做项目的步骤，并对做项目的流程和工作分工有了更加深刻的体会和理解。</p>
-<h2 id="二、函数绘图语言"><a href="#二、函数绘图语言" class="headerlink" title="二、函数绘图语言"></a>二、函数绘图语言</h2><h3 id="2-1-语言简述："><a href="#2-1-语言简述：" class="headerlink" title="2.1 语言简述："></a>2.1 语言简述：</h3><h4 id="lt-1-gt-语句"><a href="#lt-1-gt-语句" class="headerlink" title="&lt;1&gt;  语句"></a>&lt;1&gt;  语句</h4><ul>
-<li>循环绘图（FOR-DRAW）</li>
-<li>比例设置（SCALE）</li>
-<li>角度旋转（ROT）</li>
-<li>坐标平移（ORIGIN）</li>
-<li>注释        （– 或 //）</li>
-</ul>
-<p>​    具体语法及语义会在相关位置进行阐述</p>
-<h4 id="lt-2-gt-屏幕（窗口）的坐标系"><a href="#lt-2-gt-屏幕（窗口）的坐标系" class="headerlink" title="&lt;2&gt; 屏幕（窗口）的坐标系"></a>&lt;2&gt; 屏幕（窗口）的坐标系</h4><p>​    左上角为原点<br>​    x方向从左向右增长<br>​    y方向从上到下增长(与一般的坐标系方向相反)</p>
-<h4 id="lt-3-gt-函数绘图源程序举例"><a href="#lt-3-gt-函数绘图源程序举例" class="headerlink" title="&lt;3&gt; 函数绘图源程序举例"></a>&lt;3&gt; 函数绘图源程序举例</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">--------------- 函数f(t)=t的图形</span><br><span class="line">origin is (100, 300);							  -- 设置原点的偏移量</span><br><span class="line">rot is 0;										 -- 设置旋转角度(不旋转)</span><br><span class="line">scale is (1, 1);								  -- 设置横坐标和纵坐标的比例</span><br><span class="line">for T from 0 to 200 step 1 draw (t, 0);</span><br><span class="line">												-- 横坐标的轨迹（纵坐标为0）</span><br><span class="line">for T from 0 to 150 step 1 draw (0, -t);</span><br><span class="line">												-- 纵坐标的轨迹（横坐标为0）</span><br><span class="line">for T from 0 to 120 step 1 draw (t, -t);</span><br><span class="line">												-- 函数f(t)=t的轨迹</span><br></pre></td></tr></table></figure>
+        <p>Front-matter 是文件最上方以 <code>---</code> 分隔的区域，用于指定个别文件的变量，举例来说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World</span><br><span class="line">date: 2013/7/13 20:46:25</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-2-语句原则："><a href="#2-2-语句原则：" class="headerlink" title="2.2 语句原则："></a>2.2 语句原则：</h3><ol>
-<li>各类语句可以按任意次序书写，且语句以分号结尾。源程序中的语句以它们出现的先后顺序处理。</li>
-<li>ORIGIN、ROT和SCALE 语句只影响其后的绘图语句，且遵循最后出现的语句有效的原则。 例如，若有下述ROT语句序列： ROT IS 0.7 ； ROT IS 1.57 ； 则随后的绘图语句将按1.57而不是0.7弧度旋转。</li>
-<li>无论ORIGIN、ROT和SCALE语句的出现顺序如何，图形的变换顺序总是：比例变换→旋转变换→平移变换</li>
-<li>语言对大小写不敏感，例如for、For、FOR等，均被认为是同一个保留字。</li>
-<li>语句中表达式的值均为双精度类型，旋转角度单位为弧度且为逆时针旋转，平移单位为点。</li>
-</ol>
-<h3 id="2-3语法详解："><a href="#2-3语法详解：" class="headerlink" title="2.3语法详解："></a>2.3语法详解：</h3><h4 id="lt-1-gt-循环绘图（FOR-DRAW-）语句"><a href="#lt-1-gt-循环绘图（FOR-DRAW-）语句" class="headerlink" title="&lt;1&gt; 循环绘图（FOR-DRAW ）语句"></a>&lt;1&gt; 循环绘图（FOR-DRAW ）语句</h4><p>​    语法：FOR T FROM 起点 TO 终点 STEP 步长 DRAW(横坐标, 纵坐标);</p>
-<p>​    语义：令T从起点到终点、每次改变一个步长，绘制出由(横坐标，纵坐标)所规定的点的轨迹。</p>
-<p>​    举例：FOR T FROM 0 TO 2*PI STEP PI/50 DRAW (cos(T), sin(T));</p>
-<p>​    说明：该语句的作用是令T从0到2*PI、步长 PI/50，绘制出各个点的坐标(cos(T)，sin(T))，即一个单位圆。</p>
-<h4 id="lt-2-gt-比例设置-SCALE-语句"><a href="#lt-2-gt-比例设置-SCALE-语句" class="headerlink" title="&lt;2&gt; 比例设置(SCALE)语句"></a>&lt;2&gt; 比例设置(SCALE)语句</h4><p>​    语法：SCALE IS (横坐标比例因子，纵坐标比例因子);</p>
-<p>​    语义：设置横坐标和纵坐标的比例，并分别按照比例因子进行缩放。</p>
-<p>​    举例：SCALE IS (100, 100);</p>
-<p>​    说明：将横坐标和纵坐标的比例设置为1:1，且放大100倍。</p>
-<h4 id="lt-3-gt-坐标平移-ORIGIN-语句"><a href="#lt-3-gt-坐标平移-ORIGIN-语句" class="headerlink" title="&lt;3&gt; 坐标平移(ORIGIN)语句"></a>&lt;3&gt; 坐标平移(ORIGIN)语句</h4><p>​    语法：ORIGIN IS (横坐标，纵坐标);</p>
-<p>​    语义：将坐标系的原点平移到横坐标和纵坐标规定的点处。</p>
-<p>​    举例：ORIGIN IS (360, 240);</p>
-<p>​    说明：将原点从(0, 0)平移到(360, 240) 处</p>
-<h4 id="lt-4-gt-角度旋转-ROT-语句"><a href="#lt-4-gt-角度旋转-ROT-语句" class="headerlink" title="&lt;4&gt; 角度旋转(ROT)语句"></a>&lt;4&gt; 角度旋转(ROT)语句</h4><p>​    语法：ROT IS 角度；</p>
-<p>​    语义：逆时针旋转角度所规定的弧度值。 具体计算公式：<br>​    旋转后X=旋转前X<em>COS(角度)+旋转前Y</em>SIN(角度)<br>​    旋转后Y=旋转前Y<em>COS(角度)-旋转前X</em>SIN(角度)</p>
-<p>​    举例：ROT IS PI/2;</p>
-<p>​    说明：逆时针旋转PI/2，即逆时针旋转90度。</p>
-<h4 id="lt-5-gt-注释语句"><a href="#lt-5-gt-注释语句" class="headerlink" title="&lt;5&gt; 注释语句"></a>&lt;5&gt; 注释语句</h4><p>​    作用：便于理解； 屏蔽暂时不需要的语句。</p>
-<p>​    语法：// This is a comment line 或 – 此行是注释</p>
-<p>​    语义：// 或 – 之后，直到行尾，均是注释</p>
-<h2 id="三、架构"><a href="#三、架构" class="headerlink" title="三、架构"></a>三、架构</h2><h3 id="解释器的实现方法"><a href="#解释器的实现方法" class="headerlink" title="解释器的实现方法"></a>解释器的实现方法</h3><p>解释器的实现原理：</p>
-<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232323663.png" alt="image-20220502232323663" style="zoom: 50%;" />
+<p>以下是预先定义的参数，您可在模板中使用这些参数值并加以利用。</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">描述</th>
+<th align="left">默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>layout</code></td>
+<td align="left">布局</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/configuration#%E6%96%87%E7%AB%A0"><code>config.default_layout</code></a></td>
+</tr>
+<tr>
+<td align="left"><code>title</code></td>
+<td align="left">标题</td>
+<td align="left">文章的文件名</td>
+</tr>
+<tr>
+<td align="left"><code>date</code></td>
+<td align="left">建立日期</td>
+<td align="left">文件建立日期</td>
+</tr>
+<tr>
+<td align="left"><code>updated</code></td>
+<td align="left">更新日期</td>
+<td align="left">文件更新日期</td>
+</tr>
+<tr>
+<td align="left"><code>comments</code></td>
+<td align="left">开启文章的评论功能</td>
+<td align="left">true</td>
+</tr>
+<tr>
+<td align="left"><code>tags</code></td>
+<td align="left">标签（不适用于分页）</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>categories</code></td>
+<td align="left">分类（不适用于分页）</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>permalink</code></td>
+<td align="left">覆盖文章网址</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>excerpt</code></td>
+<td align="left">Page excerpt in plain text. Use <a target="_blank" rel="noopener" href="https://hexo.io/docs/tag-plugins#Post-Excerpt">this plugin</a> to format the text</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>disableNunjucks</code></td>
+<td align="left">Disable rendering of Nunjucks tag <code>&#123;&#123; &#125;&#125;</code>/<code>&#123;% %&#125;</code> and <a target="_blank" rel="noopener" href="https://hexo.io/docs/tag-plugins">tag plugins</a> when enabled</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>lang</code></td>
+<td align="left">Set the language to override <a target="_blank" rel="noopener" href="https://hexo.io/docs/internationalization#Path">auto-detection</a></td>
+<td align="left">Inherited from <code>_config.yml</code></td>
+</tr>
+</tbody></table>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: [title]</span><br><span class="line">date: [2013/7/13 20:46:25]</span><br><span class="line">layout: messages/config.default<span class="emphasis">_layout</span></span><br></pre></td></tr></table></figure>
 
-<p>实现方法：</p>
-<ol>
-<li><p>用程序设计语言（C/C++、Java、python等）和递归下降子程序方法编写完整的解释器；</p>
-<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232046987.png" style="zoom: 67%;" /></li>
-<li><p>利用工具 LEX/YACC 分别构造绘图语言的词法、语法分析器；用C/C++语言编写解释器的语义、主程序。</p>
-<img src="C:\Users\Bin\AppData\Roaming\Typora\typora-user-images\image-20220502232108848.png" style="zoom: 50%;" /></li>
-</ol>
-<p>以上两种方法均可，而且两种方法的语义部分（和主程序）基本相同，主要区别在于词法和语法分析器的构造是手工完成还是借助于工具完成，考虑到该绘图语言结构并不是很复杂，故采取第一种方式编写完整的解释器。</p>
-<h3 id="词法设计"><a href="#词法设计" class="headerlink" title="词法设计"></a>词法设计</h3><h3 id="语法设计"><a href="#语法设计" class="headerlink" title="语法设计"></a>语法设计</h3>
+<h2 id="分类文件夹"><a href="#分类文件夹" class="headerlink" title="分类文件夹"></a>分类文件夹</h2><p>嵌套关系和并列关系</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line"><span class="bullet">  -</span> Diary</span><br><span class="line"><span class="bullet">  -</span> Life</span><br><span class="line">categories:</span><br><span class="line"><span class="bullet">-</span> [Diary, PlayStation]</span><br><span class="line"><span class="bullet">-</span> [Diary, Games]</span><br><span class="line"><span class="bullet">-</span> [Life]</span><br></pre></td></tr></table></figure>
+
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>并列关系</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tags:</span><br><span class="line"><span class="bullet">-</span> PS3</span><br><span class="line"><span class="bullet">-</span> Games</span><br></pre></td></tr></table></figure>
       </section>
 
       
@@ -199,8 +226,8 @@
     
     <div class="card-text">
       
-        <a href="/2022/09/03/hello-world/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Hello World</h2>
+        <a href="/2022/09/04/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Interpreter For Functional Painting Language</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -216,6 +243,24 @@
 
 
   
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script type="text/javascript" src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "N0eWiYCIIjSDCEmz3sVPE4UR-gzGzoHsz",
+        appKey: "PGemu1QetX68meeI2abnp5ny",
+        avatar: "mp",
+        placeholder: "随便说点什么叭～",
+        notify: true,
+        visitor: true,
+        pageSize: 10,
+      });
+    </script>
   
 
   
@@ -242,19 +287,19 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>2</span>
+        <span>3</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
 </svg>
-        0
+        3
       </div>
       <div class="count-box--item">
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        0
+        1
       </div>
     </div>
   </div>
@@ -286,6 +331,24 @@
   <div class="widget-body">
     <ul class="categorys-list">
       
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+            学习 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
+            编译原理 (1)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+            搭建博客 (2)
+          </a>
+        </li>
+      
     </ul>
   </div>
 </section>
@@ -299,7 +362,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      
+      <a href="/tags/PROJECTS/" style="font-size: 10px;" class="tags-cloud-0">PROJECTS</a>
     </div>
   </div>
 </section>
